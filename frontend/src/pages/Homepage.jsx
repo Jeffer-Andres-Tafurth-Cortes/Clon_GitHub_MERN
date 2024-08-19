@@ -1,3 +1,7 @@
+import ProfileInfo from "../components/ProfileInfo"
+import Repos from "../components/Repos"
+import Search from "../components/Search"
+import SortRepos from "../components/SortRepos"
 
 // El componente 'HomePage' contiene todo lo que seria el inicio de la aplicacion
 function Homepage() {
