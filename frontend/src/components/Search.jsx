@@ -1,9 +1,9 @@
 import { IoSearch } from "react-icons/io5"
 
 // El componente 'Search' sera la barra de busqueda dentro de la pagina de inicio (HomePage)
-function Search() {
+function Search({ onSearch }) {
   return (
-    <form className='max-w-xl mx-auto p-2 sm:w-72'>
+    <form className='max-w-xl mx-auto p-2' onSubmit={(e) => onSearch(e)}>
       <label htmlFor='default-search' className='mb-2 text-sm font-medium text-gray-900 sr-only'>
         Buscar
       </label>

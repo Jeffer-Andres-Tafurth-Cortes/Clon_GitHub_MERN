@@ -3,26 +3,13 @@ import { RiGitRepositoryFill, RiUserFollowFill, RiUserFollowLine } from "react-i
 import { FaXTwitter } from "react-icons/fa6";
 import { TfiThought } from "react-icons/tfi"
 import { FaEye } from "react-icons/fa"
+import { formatMemberSince } from "../../utils/functions";
 
 
 // El componente 'ProfileInfo' es el encargado de mostrar informacion del usuario
-function ProfileInfo() {
+function ProfileInfo({ userProfile }) {
 
-  // Se define el array de los datos del usuario
-  const userProfile = {
-    avatar_url: 'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745',
-    bio: '👨‍💻',
-    email: 'johndoe@gmail.com',
-    followers: 100,
-    following: 200,
-    html_url: 'https://github.com/burakorkmez',
-    location: 'En algun lugar del mundo',
-    name:'John Doe',
-    public_gist: 100,
-    public_repos: 100,
-    twitter_username: 'johndoe',
-    login: 'johndoe'
-  }
+  const memberSince = formatMemberSince(userProfile?.created_at)
 
   return (
 
@@ -33,12 +20,12 @@ function ProfileInfo() {
 
           {/** En forma de link va a estar la imagen del usuario */}
           <a href={userProfile?.html_url} target='_blank' rel='noreferrer'>
-            <img src={userProfile?.avatar_url} className='rounded-md w-24 h-24 mb-2' alt={userProfile.name} />
+            <img src={userProfile?.avatar_url} className='rounded-md w-24 h-24 mb-2' alt={userProfile?.name} />
           </a>
 
           {/** Se añade una opcion para ver el perfil del usuario en Github oficial */}
           <div className='flex gap-2 items-center flex-col'>
-            <a href={userProfile.html_url} target='_blank' ref='noreferrer' 
+            <a href={userProfile?.html_url} target='_blank' ref='noreferrer' 
               className='bg-glass font-medium w-full text-xs p-2 rounded-md cursos-md cursor-pointer border-blue-400
               flex items-center gap-2'
             >
@@ -84,7 +71,7 @@ function ProfileInfo() {
         {/** El siguiente 'div' contiene lo que seria la fecha desde la que la cuenta esta vigente */}
         <div className='my-2'>
           <p className='text-gray-600 font-bold text-sm'>Cuenta activa desde</p>
-          <p className=''>21 Sep, 2023</p>
+          <p className=''>{memberSince}</p>
         </div>
 
         {/** El siguiente 'div' contiene lo que seria el correo electronico del usuario */}
