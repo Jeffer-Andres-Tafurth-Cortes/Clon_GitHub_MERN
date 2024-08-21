@@ -16,22 +16,17 @@ function Homepage() {
   const [sortType, setSortType] = useState('recent')
 
   // Se define la funcion 'getUserProfileAndRepos' para obtener el usuario y sus repositorios
-  const getUserProfileAndRepos = useCallback(async (username= 'burakorkmez') => {
+  const getUserProfileAndRepos = useCallback(async (username = 'burakorkmez') => {
 
     setLoading(true)
 
     try {
+      const response = await fetch(`http://localhost:5000/api/users/profile/${username}`)
+      const { repos, userProfile } = await response.json()
+      repos.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
 
-      // Se obtiene la informacion del usuario
-      const userRes = await fetch(`https://api.github.com/users/${username}`)
-      const userProfile = await userRes.json()
-      setUserProfile(userProfile)
-
-      // Se obtiene los repositorios del usuario en cuestion
-      const repoRes = await fetch(userProfile.repos_url)
-      const repos = await repoRes.json()
       setRepos(repos)
-
+      setUserProfile(userProfile)
       return { userProfile, repos }
 
     } catch (error) {
@@ -45,7 +40,7 @@ function Homepage() {
   // Se utiliza 'useEffect' para que se ejecute una sola vez al cargar la pagina
   useEffect(() => {
     getUserProfileAndRepos()
-  }, [getUserProfileAndRepos]);
+  }, [getUserProfileAndRepos])
 
   // Se define la funcion 'onSearch' cuando ya se ejecute el evento onSubmit del componente 'Search'
   const onSearch = async (e, username) => {
@@ -61,6 +56,20 @@ function Homepage() {
     setLoading(false)
   }
 
+  // Se define la funcion 'onSort' la cual ordena los repositorios en 3 ordenes distintos
+  const onSort = (sortType) => {
+
+    if(sortType === 'recent'){
+      repos.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
+    } else if(sortType === 'stars'){
+      repos.sort((a,b) => b.stargazers_count - a.stargazers_count)
+    } else if(sortType === 'forks'){
+      repos.sort((a,b) => b.forks_count - a.forks_count)
+    }
+    setSortType(sortType)
+    setRepos([...repos])
+  }
+
   return (
     <div className='m-4'>
 
@@ -68,7 +77,9 @@ function Homepage() {
       <Search onSearch={onSearch} />
 
       {/** Importamos el componente 'SortRepos' que seran tres botones con los cuales se ordenan los repositorios del usuario */}
-      <SortRepos />
+      {repos.length > 0 && (
+        <SortRepos onSort={onSort} sortType={sortType}  />
+      )}
 
       <div className='flex gap-4 flex-col lg:flex-row justify-center items-start'>
 
@@ -78,7 +89,7 @@ function Homepage() {
         )}
 
         {/** Si el usuario existe y si tiene repositorios entonces se renderizan en forma de lista los repositorios */}
-        {repos.length > 0 && !loading && (
+        {!loading && (
           <Repos repos={repos} sortType={sortType} />
         )}
 

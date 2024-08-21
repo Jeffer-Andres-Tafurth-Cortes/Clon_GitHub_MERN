@@ -19,13 +19,13 @@ function ProfileInfo({ userProfile }) {
         <div className='flex gap-3 items-center'>
 
           {/** En forma de link va a estar la imagen del usuario */}
-          <a href={userProfile?.html_url} target='_blank' rel='noreferrer'>
+          <a href={userProfile?.html_url} target='_blank'>
             <img src={userProfile?.avatar_url} className='rounded-md w-24 h-24 mb-2' alt={userProfile?.name} />
           </a>
 
           {/** Se añade una opcion para ver el perfil del usuario en Github oficial */}
           <div className='flex gap-2 items-center flex-col'>
-            <a href={userProfile?.html_url} target='_blank' ref='noreferrer' 
+            <a href={userProfile?.html_url} target='_blank' 
               className='bg-glass font-medium w-full text-xs p-2 rounded-md cursos-md cursor-pointer border-blue-400
               flex items-center gap-2'
             >
@@ -58,7 +58,7 @@ function ProfileInfo({ userProfile }) {
 
         {/** El siguiente 'a' contiene lo que es el Twitter del usuario */}
         {userProfile?.twitter_username ? (
-          <a href={`https://twitter.com/${userProfile.twitter_username}`} target='_blank' rel='noreferrer'
+          <a href={`https://twitter.com/${userProfile.twitter_username}`} target='_blank'
             className='flex itemx-center gap-2 hover:text-sky-500'
           >
             <FaXTwitter />
