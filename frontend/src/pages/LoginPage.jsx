@@ -1,8 +1,10 @@
 import { FaGithub } from "react-icons/fa"
 import { Link } from "react-router-dom"
+import { handleLoginWithGitHub } from "../lib/function"
 
 // El componente 'LoginPage' responde a la seccion en donde un usuario inicia sesion en la aplicacion
 function LoginPage() {
+
   return (
     // Este primer 'div' corresponde a los estilos y medidas de lo que sera el formulario de inicio de sesion
     <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0'>
@@ -17,7 +19,7 @@ function LoginPage() {
 
           <button type='button' className='text-white bg-[#24292F] hover:bg-[#24292F]/90 focuse:ring-4 
             focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg flex gap-2 p-2 items-center
-            w-full text-center justify-center'
+            w-full text-center justify-center' onClick={handleLoginWithGitHub}
           >
             <FaGithub className='w-5 h-5' />
             Iniciar Sesion con GitHub

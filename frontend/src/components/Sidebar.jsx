@@ -5,13 +5,14 @@ import { FaHeart } from 'react-icons/fa'
 import { MdOutlineExplore, MdEditDocument } from 'react-icons/md'
 import { PiSignInBold } from 'react-icons/pi'
 import Logout from "./Logout"
+import { useAuthContext } from "../context/AuthContext"
 
 /* El componente 'Sidebar' corresponde a la barra lateral de la izquieda de la aplicacion, esta misma sirve como
   navegacion de toda la aplicacion
 */
 function Sidebar() {
 
-  const authUser = true
+  const {authUser} = useAuthContext()
 
   return (
     // Este aside contiene todo lo de la barra lateral de la izquierda de la aplicacion

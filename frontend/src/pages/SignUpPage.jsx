@@ -1,8 +1,10 @@
 import { FaGithub, FaUnlockAlt } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { handleLoginWithGitHub } from '../lib/function'
 
 // El componente 'SignUp tendra la logica de lo que compete para que un usuario se registre en la aplicacion' 
 function SignUpPage() {
+
   return (
 
     // Este primer 'div' contiene las medidas y estilos de la pagina para registrarse(Sign Up)
@@ -18,7 +20,8 @@ function SignUpPage() {
 
           {/** Este 'button' es para acceder a la aplicacion a traves de una cuenta de GitHub */}
           <button type='button' className='text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 
-            focus:ring-[#24292F]/50 font-medium rounded-lg flex gap-2 p-2 items-center w-full text-center justify-center'
+            focus:ring-[#24292F]/50 font-medium rounded-lg flex gap-2 p-2 items-center w-full text-center 
+            justify-center' onClick={handleLoginWithGitHub}
           >
             <FaGithub className='w-5 h-5' />
             Registrarme con GitHub

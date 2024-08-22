@@ -16,12 +16,12 @@ function Homepage() {
   const [sortType, setSortType] = useState('recent')
 
   // Se define la funcion 'getUserProfileAndRepos' para obtener el usuario y sus repositorios
-  const getUserProfileAndRepos = useCallback(async (username = 'burakorkmez') => {
+  const getUserProfileAndRepos = useCallback(async (username = 'Jeffer-Andres-Tafurth-Cortes') => {
 
     setLoading(true)
 
     try {
-      const response = await fetch(`http://localhost:5000/api/users/profile/${username}`)
+      const response = await fetch(`/api/users/profile/${username}`)
       const { repos, userProfile } = await response.json()
       repos.sort((a,b) => new Date(b.created_at) - new Date(a.created_at))
 

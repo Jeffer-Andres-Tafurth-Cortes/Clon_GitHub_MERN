@@ -1,0 +1,51 @@
+// Importamos 'passport' para le tema de la autenticacion
+import passport from "passport"
+
+// Importamos 'dotenv' para manejar las variables de entorno '.env'
+import dotenv from "dotenv";
+
+import { Strategy as GitHubStrategy } from "passport-github2";
+
+import User from '../models/User.model.js'
+
+
+dotenv.config(); // Cargamos las variables de entorno
+
+passport.serializeUser(function (user, done) {
+	done(null, user);
+})
+
+passport.deserializeUser(function (obj, done) {
+	done(null, obj);
+})
+
+// Definimos una funcion que para admitir credenciales de autenticacion
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: "/auth/github/callback",
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      console.log(profile);
+      
+      const user = await User.findOne({ username: profile.username })
+      if(!user){
+        const newUser = new User({
+          name: profile.displayName,
+          username: profile.username,
+          profileUrl: profile.profileUrl,
+          avatarUrl: profile.photos[0].value,
+          likedProfiles: [],
+          likedBy: []
+        })
+        await newUser.save()
+        done(null, newUser)
+      } else {
+        done(null, user)
+      }
+      
+    }
+  )
+)
