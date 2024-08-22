@@ -20,7 +20,7 @@ function Logout() {
 
   return (
     <>
-      <img src={authUser?.avatar_url} 
+      <img src={authUser?.avatarUrl} 
         className='w-10 h-10 rounded-full border border-gray-800'
       />
 

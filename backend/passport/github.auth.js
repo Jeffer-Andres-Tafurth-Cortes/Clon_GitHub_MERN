@@ -8,7 +8,6 @@ import { Strategy as GitHubStrategy } from "passport-github2";
 
 import User from '../models/User.model.js'
 
-
 dotenv.config(); // Cargamos las variables de entorno
 
 passport.serializeUser(function (user, done) {
@@ -25,10 +24,9 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "/auth/github/callback",
+      callbackURL: "/api/auth/github/callback",
     },
-    async (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
+    async function (accessToken, refreshToken, profile, done) {
       
       const user = await User.findOne({ username: profile.username })
       if(!user){
@@ -42,6 +40,7 @@ passport.use(
         })
         await newUser.save()
         done(null, newUser)
+
       } else {
         done(null, user)
       }

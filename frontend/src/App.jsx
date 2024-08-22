@@ -13,8 +13,10 @@ import { useAuthContext } from "./context/AuthContext"
 // El componente 'App' sera el encargado de renderizar todos los componentes de la aplicacion
 function App() {
 
-  const {authUser} = useAuthContext()
-  console.log(authUser);
+  const {authUser, loading} = useAuthContext()
+  console.log(authUser)
+
+  if (loading) return null
   
   return (
     <div className='flex text-white'>

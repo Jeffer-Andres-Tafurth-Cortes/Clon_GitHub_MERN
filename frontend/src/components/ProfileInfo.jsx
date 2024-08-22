@@ -4,6 +4,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import { TfiThought } from "react-icons/tfi"
 import { FaEye } from "react-icons/fa"
 import { formatMemberSince } from "../../utils/functions";
+import LikeProfile from "./LikeProfile";
 
 
 // El componente 'ProfileInfo' es el encargado de mostrar informacion del usuario
@@ -22,6 +23,11 @@ function ProfileInfo({ userProfile }) {
           <a href={userProfile?.html_url} target='_blank'>
             <img src={userProfile?.avatar_url} className='rounded-md w-24 h-24 mb-2' alt={userProfile?.name} />
           </a>
+
+          {/** Se añade una opcion para dar like al perfil de algun usuario */}
+          <div className='flex gap-2 items-center flex-col'>
+            <LikeProfile userProfile={userProfile} />
+          </div>
 
           {/** Se añade una opcion para ver el perfil del usuario en Github oficial */}
           <div className='flex gap-2 items-center flex-col'>

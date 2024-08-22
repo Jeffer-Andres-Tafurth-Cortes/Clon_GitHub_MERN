@@ -1,7 +1,7 @@
 // Se crea el middleware para verificar si el usuario esta autenticado o no
-export async function ensureAutheticated(request, response, next){
-  if(request.isAutheticated){
+export async function ensureAuthenticated(req, res, next) {
+  if(req.isAuthenticated()){
     return next()
   }
-  response.redirect(process.env.CLIENT_BASE_URL + '/login')
+  res.redirect(process.env.CLIENT_BASE_URL + '/login')
 }

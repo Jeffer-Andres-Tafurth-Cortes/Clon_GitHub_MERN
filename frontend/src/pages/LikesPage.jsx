@@ -1,7 +1,28 @@
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { FaHeart } from "react-icons/fa"
+import { formatDate } from "../../utils/functions";
 
 // El componente 'LikesPage' mostrara
 function LikesPage() {
+
+  const [likes, setLikes] = useState([])
+
+  useEffect(() => {
+    const getLikes = async () => {
+      try{
+        const res = await fetch('/api/users/likes', {credentials: 'include'})
+        const data = await res.json()
+        if(data.error) throw new Error(data.error)
+        setLikes(data.likedBy)
+
+      } catch (error){
+        toast.error(error.message)
+      }
+    }
+    getLikes()
+  }, []);
+
   return (
     <div className='relative overflow-x-auto shadow-md rounded-lg px-4'>
 
@@ -33,33 +54,35 @@ function LikesPage() {
 
         {/** 'tbody' corresponde al cuerpo de la tabla(contenido) */}
         <tbody>
-          <tr className='bg-glass border-b'>
+          {likes.map((user, idx) => (
+            <tr className='bg-glass border-b' key={user.username}>
 
-            <td className='w-4 p-4'>
-              <div className='flex items-center'>
-                <span>1</span>
-              </div>
-            </td>
+              <td className='w-4 p-4'>
+                <div className='flex items-center'>
+                  <span>{idx + 1}</span>
+                </div>
+              </td>
 
-            <th scope='row' className='flex items-center px-6 py-4 whitespace-nowrap'>
-              <img className='w-10 h-10 rounded-full' alt='Imagen Usuario'
-                src={'https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745'} 
-              />
-              <div className='ps-3'>
-                <div className='text-base font-semibold'>dasdas</div>
-              </div>  
-            </th>
+              <th scope='row' className='flex items-center px-6 py-4 whitespace-nowrap'>
+                <img className='w-10 h-10 rounded-full' alt='Imagen Usuario'
+                  src={user.avatarUrl} 
+                />
+                <div className='ps-3'>
+                  <div className='text-base font-semibold'>{user.username}</div>
+                </div>  
+              </th>
 
-            <td className='px-6 py-4'>das</td>
+              <td className='px-6 py-4'>{formatDate(user.likedDate)}</td>
 
-            <td className='px-6 py-4'>
-              <div className='flex items-center'>
-                <FaHeart size={22} className='text-red-500 mx-2' />
-                Le gusto tu perfil
-              </div>
-            </td>
+              <td className='px-6 py-4'>
+                <div className='flex items-center'>
+                  <FaHeart size={22} className='text-red-500 mx-2' />
+                  Le gusto tu perfil
+                </div>
+              </td>
 
-          </tr>
+            </tr> 
+          ))}
         </tbody>
       </table>
 
