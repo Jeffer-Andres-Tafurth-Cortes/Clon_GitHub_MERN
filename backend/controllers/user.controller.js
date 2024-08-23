@@ -41,7 +41,8 @@ export const likeProfile = async (req, res) => {
   try {
     const { username } = req.params
     const user = await User.findById(req.user._id.toString())
-    const userToLike = await User.findOne({ username: username })
+    console.log(user, 'auth user');
+    const userToLike = await User.findOne({ username })
     
     if(!userToLike){
       return res.status(404).json({ error: 'Usuario no encontrado' })
@@ -64,17 +65,10 @@ export const likeProfile = async (req, res) => {
 }
 
 // Se define el controlador para cuando se desea ver los likes de un usuario en la aplicacion
-
 export const getLikes = async (req, res) => {
   try {
     const user = await User.findById(req.user._id.toString())
     res.status(200).json({ likedBy: user.likedBy })
-
-    if(!user){
-      return res.status(404).json({ message: 'Usuario no encontrado' })
-    }
-
-    res.status(200).json(user.likedBy)
 
   } catch (error) {
     res.status(500).json({ error: error.message })

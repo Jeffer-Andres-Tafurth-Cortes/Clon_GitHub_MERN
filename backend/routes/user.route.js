@@ -10,10 +10,10 @@ const router = express.Router()
 router.get('/profile/:username', getUserProfileAndRepos)
 
 // Ruta para hacer que el perfil reciba el like
-router.get('/likes', ensureAuthenticated, getLikes)
+router.get("/likes", ensureAuthenticated, getLikes)
 
 // Ruta para darle like a un perfil de un usuario (ruta -> '/like/:username' )
-router.post('/like/:username', ensureAuthenticated, likeProfile)
+router.post("/like/:username", ensureAuthenticated, likeProfile)
 
 
 export default router
