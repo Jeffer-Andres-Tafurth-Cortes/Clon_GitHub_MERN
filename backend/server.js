@@ -10,6 +10,8 @@ import cors from 'cors'
 import passport from 'passport'
 import session from 'express-session'
 
+import path from 'path'
+
 import "./passport/github.auth.js"
 
 // Importamos los middleware creados en el la carpeta 'routes'
@@ -24,6 +26,14 @@ dotenv.config()
 
 // Definimos la variable 'app' para poder usar 'express'
 const app = express()
+
+const PORT = process.env.PORT || 5000
+
+// Se define una variable para que el FrontEnd y el BackEnd tengan la misma direccion URL para produccion
+const __dirname = path.resolve();
+
+console.log(__dirname);
+
 
 app.use(session({ secret: "keyboard cat", resave: false, saveUninitialized: false }))
 app.use(passport.initialize()) 
@@ -40,8 +50,14 @@ app.use("/api/users", userRoutes)
 // La ruta '/api/explore' corresponde a las funciones para explorar y buscar repositorios mas comunes de acuerdo a 5 lenguajes de programacion
 app.use("/api/explore", exploreRoutes)
 
+app.use(express.static(path.join(__dirname, '/frontend/dist')))
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'))
+})
+
 // Definimos el puerto que va a escuchar la variable 'app'
-app.listen(5000, () => {
-  console.log('El servidor esta corriendo en http://localhost:5000');
+app.listen(PORT, () => {
+  console.log(`El servidor esta corriendo en http://localhost:${PORT}`)
   connectMongoDB()
 })
