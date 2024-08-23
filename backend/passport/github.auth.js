@@ -12,37 +12,37 @@ dotenv.config(); // Cargamos las variables de entorno
 
 passport.serializeUser(function (user, done) {
 	done(null, user);
-})
+});
 
 passport.deserializeUser(function (obj, done) {
 	done(null, obj);
-})
+});
 
 // Definimos una funcion que para admitir credenciales de autenticacion
 passport.use(
   new GitHubStrategy(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+			clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: "https://clon-github-mern.onrender.com/api/auth/github/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
       
-      const user = await User.findOne({ username: profile.username })
-      if(!user){
-        const newUser = new User({
-          name: profile.displayName,
-          username: profile.username,
-          profileUrl: profile.profileUrl,
-          avatarUrl: profile.photos[0].value,
-          likedProfiles: [],
-          likedBy: []
-        })
-        await newUser.save()
-        done(null, newUser)
+      const user = await User.findOne({ username: profile.username });
+      if (!user) {
+				const newUser = new User({
+					name: profile.displayName,
+					username: profile.username,
+					profileUrl: profile.profileUrl,
+					avatarUrl: profile.photos[0].value,
+					likedProfiles: [],
+					likedBy: [],
+				});
+        await newUser.save();
+				done(null, newUser);
 
       } else {
-        done(null, user)
+        done(null, user);
       }
       
     }
